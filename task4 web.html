@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Responsive Demo — Media Queries</title>
+  <style>
+    /* ---------- Base / Mobile-first styles ---------- */
+    :root{
+      --brand: #4b2be3;
+      --muted: #666;
+      --bg: #f7f7fb;
+      --card: #fff;
+      --max-width: 1100px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:var(--bg);
+      color:#222;
+      line-height:1.5;
+      padding:20px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .page {
+      width:100%;
+      max-width:var(--max-width);
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:18px;
+    }
+
+    .logo {
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .logo .mark {
+      width:48px;
+      height:48px;
+      border-radius:8px;
+      background:linear-gradient(135deg,var(--brand),#6c4dff);
+      display:inline-block;
+    }
+    .logo h1{
+      font-size:18px;
+      margin:0;
+    }
+
+    /* Nav - collapsed by default on mobile */
+    nav{
+      position:relative;
+    }
+    .nav-list{
+      display:none; /* hidden on mobile; toggled by JS */
+      list-style:none;
+      padding:8px;
+      margin:0;
+      background:var(--card);
+      border-radius:8px;
+      box-shadow:0 6px 18px rgba(30,30,60,0.06);
+      min-width:180px;
+      text-align:left;
+    }
+    .nav-list a{
+      display:block;
+      padding:8px 12px;
+      color:var(--brand);
+      text-decoration:none;
+      font-weight:600;
+    }
+    .nav-toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:none;
+      border:0;
+      cursor:pointer;
+      font-weight:700;
+      color:var(--brand);
+    }
+
+    /* Hero card */
+    .hero{
+      background:var(--card);
+      padding:18px;
+      border-radius:10px;
+      box-shadow:0 6px 20px rgba(30,30,60,0.04);
+      margin-bottom:18px;
+    }
+    .hero h2{
+      margin:0 0 6px 0;
+      font-size:20px;
+    }
+    .hero p{ margin:0; color:var(--muted); }
+
+    /* Two-column layout */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:16px;
+      margin-top:14px;
+    }
+
+    .card{
+      background:var(--card);
+      padding:16px;
+      border-radius:10px;
+      box-shadow:0 6px 18px rgba(30,30,60,0.04);
+    }
+
+    .columns{
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:16px;
+    }
+
+    img.responsive{
+      width:100%;
+      height:auto;
+      border-radius:8px;
+      display:block;
+    }
+
+    .features ul{
+      padding-left:18px;
+      margin:8px 0 0 0;
+      color:var(--muted);
+    }
+
+    footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:14px;
+      text-align:center;
+    }
+
+    /* ---------- Desktop / large screens ---------- */
+    @media (min-width: 769px){
+      .nav-list{ display:flex; gap:12px; background:transparent; box-shadow:none; min-width:auto; padding:0; }
+      .nav-list a{ padding:6px 8px; color:#333; font-weight:600; }
+      .nav-toggle { display:none; } /* hide toggle on desktop */
+
+      .grid{ grid-template-columns: 1fr 320px; } /* show sidebar next to content */
+      .columns{ grid-template-columns: 1fr; } /* inner card single column */
+    }
+
+    /* ---------- Tablet / small laptop adjustments ---------- */
+    @media (min-width: 1024px){
+      body{ padding:30px; }
+      .logo h1{ font-size:20px; }
+      .hero h2{ font-size:22px; }
+    }
+
+    /* ---------- Mobile tweaks ---------- */
+    @media (max-width: 420px){
+      .logo h1{ font-size:16px; }
+      .hero h2{ font-size:18px; }
+      header{ gap:10px; align-items:flex-start; }
+      .nav-list{ min-width:150px; right:0; left:auto; }
+    }
+
+    /* small visual helpers */
+    .muted { color:var(--muted); font-size:14px; }
+    .btn {
+      border:0;
+      background:var(--brand);
+      color:#fff;
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:700;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="logo">
+        <span class="mark" aria-hidden="true"></span>
+        <div>
+          <h1>Web Dev Internship</h1>
+          <div class="muted">Task 4 — Make website mobile-friendly</div>
+        </div>
+      </div>
+
+      <nav>
+        <!-- Toggle visible on small screens -->
+        <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navList">
+          ☰ Menu
+        </button>
+
+        <ul class="nav-list" id="navList" role="menu">
+          <li><a href="#objective">Objective</a></li>
+          <li><a href="#hints">Hints</a></li>
+          <li><a href="#outcome">Outcome</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h2 id="objective">Objective: Convert desktop-only page to mobile-friendly layout</h2>
+      <p>Tools: your HTML file, VS Code, Chrome DevTools. Deliverable: updated CSS with responsive design working on mobile viewport.</p>
+    </section>
+
+    <!-- Grid: content + sidebar (stack on mobile) -->
+    <main class="grid">
+      <div class="card">
+        <h3>Hints / Mini Guide</h3>
+        <ol id="hints">
+          <li>Open the HTML page in an editor and identify fixed-width elements.</li>
+          <li>Use media queries targeting <code>max-width: 768px</code> to change layout.</li>
+          <li>Stack columns vertically and adjust font sizes on small screens.</li>
+          <li>Make the nav collapse into a toggle (hamburger) for small viewports.</li>
+          <li>Ensure images scale inside their containers: <code>img { max-width:100%; height:auto; }</code>.</li>
+          <li>Test using Chrome DevTools device toolbar and fix overflow/scroll issues.</li>
+        </ol>
+
+        <div style="margin-top:14px" class="columns">
+          <div>
+            <h4>Example content</h4>
+            <p class="muted">This paragraph shows how text reflows. On desktop you may see multi-column content — but on phones it should stack into a single column for easy reading.</p>
+
+            <img class="responsive" src="https://via.placeholder.com/800x400.png?text=Responsive+Image" alt="Example responsive">
+
+            <p style="margin-top:10px">Resize the browser width or open DevTools -> Toggle device toolbar to simulate smaller screens.</p>
+          </div>
+
+          <aside>
+            <div class="card">
+              <h4>Checklist</h4>
+              <ul>
+                <li>Remove fixed-width containers</li>
+                <li>Use fluid widths (%, max-width)</li>
+                <li>Use stack layout at <code>&lt;=768px</code></li>
+                <li>Collapse navigation for small screens</li>
+              </ul>
+              <div style="margin-top:12px">
+                <button class="btn" onclick="alert('Great!')">I'm done</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <aside class="card">
+        <h4>Outcome</h4>
+        <p class="muted" id="outcome">Grasp media queries, mobile-first design, and flexible layouts. This sidebar demonstrates a secondary column that becomes stacked on narrow screens.</p>
+
+        <div style="margin-top:12px">
+          <strong>Quick CSS snippet</strong>
+          <pre style="white-space:pre-wrap;background:#f1f4ff;padding:8px;border-radius:6px;margin-top:8px;">
+/* mobile-first */
+.container { width:100%; max-width:1100px; }
+img { max-width:100%; height:auto; }
+
+/* responsive breakpoint */
+@media (max-width:768px){
+  .grid { grid-template-columns: 1fr; }
+  .nav-list { display:none; }
+}
+          </pre>
+        </div>
+      </aside>
+    </main>
+
+    <footer>
+      © Web Dev Internship — Example responsive page • Resize window to test media queries
+    </footer>
+  </div>
+
+  <script>
+    // Small JS to toggle nav on mobile
+    (function(){
+      const toggle = document.getElementById('navToggle');
+      const navList = document.getElementById('navList');
+
+      toggle.addEventListener('click', () => {
+        const isShown = navList.style.display === 'block';
+        navList.style.display = isShown ? 'none' : 'block';
+        toggle.setAttribute('aria-expanded', !isShown);
+      });
+
+      // Hide the nav-list when screen is resized to desktop sizes
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 769) {
+          navList.style.display = '';
+          toggle.setAttribute('aria-expanded', false);
+        } else {
+          // ensure nav hidden by default on small screens
+          if (!navList.style.display) navList.style.display = 'none';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
